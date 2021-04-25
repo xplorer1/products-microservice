@@ -7,6 +7,7 @@ const topics = [
         topic: "order_events"
     }
 ];
+
 const options = {
     autoCommit: true,
     fetchMaxWaitMs: 1000,
@@ -17,10 +18,13 @@ const options = {
 const consumer = new kafka.HighLevelConsumer(client, topics, options);
 
 consumer.on("message", function(message) {
+    console.log("message: ", message);
 
     // Read string into a buffer.
     var buf = new Buffer(message.value, "binary"); 
     var decodedMessage = JSON.parse(buf.toString());
+
+    console.log("decodedMessage: ", decodedMessage);
 
     //Events is a Sequelize Model Object. 
     return Events.create({

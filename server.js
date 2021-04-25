@@ -3,8 +3,6 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const appstorage = require("./app/utils/nodepersist");
-const cron = require('node-cron');
 
 let mongoose = require('mongoose'); // for working w/ our database
 let config = require('./config');
@@ -16,10 +14,6 @@ let conn = mongoose.connection;
 conn.on('error', function(err){
     console.log('mongoose connection error:', err.message);
 });
-
-if(!appstorage.get("blacklist")) { //for setting the stage for storing expired tokens.
-    appstorage.set("blacklist", []);
-}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -47,13 +41,6 @@ app.use(function(req, res, next) {
 });
 
 app.use("/api", apiRoutes);
-
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('*', function(req, res) {
-    //res.sendFile(path.join(__dirname + '/build/index.html'));
-    res.sendFile(path.join(__dirname + '/build/index.html'));
-    //res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 app.use(function(req, res) {
     return res.status(404).send({ message: 'The url you visited does not exist' });
