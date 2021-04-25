@@ -8,15 +8,15 @@ const host = process.env.HOST_IP || ip.address();
 const { Kafka } = require('kafkajs')
  
 const kafka = new Kafka({
-    clientId: 'order-product-group',
+    clientId: config.kafka_client_id,
     brokers: [`${host}:9092`, `${host}:9093`]
 });
 
-const consumer = kafka.consumer({ groupId: 'order-product-group' });
+const consumer = kafka.consumer({ groupId: config.kafka_group_id });
 
 let runConsumer = async () => {
     await consumer.connect()
-    await consumer.subscribe({ topic: 'order_events', fromBeginning: true })
+    await consumer.subscribe({ topic: config.kafka_topic, fromBeginning: true })
 
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {

@@ -4,6 +4,9 @@ module.exports = {
     'database' : 'mongodb+srv://phantom-admin:Pe4NFrsQFz2Pv2pX@cluster0.08uuj.mongodb.net/productsdb?retryWrites=true&w=majority',
 
     'secret': 'hlvsog5NVcZphKxpJPPBBoMww9XRNZ-_h51osqyBqPg',
+    'kafka_client_id' : 'order-product-group',
+    'kafka_group_id' : 'order-product-group',
+    'kafka_topic' : 'order_events',
     generateCode: function (len) {
         var length = len,
             charset = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXY",
